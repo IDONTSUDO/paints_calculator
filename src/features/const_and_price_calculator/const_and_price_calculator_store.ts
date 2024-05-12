@@ -9,9 +9,6 @@ export class ConstAndPriceCalculatorStore extends UiFormState<
   CostAndPriceViewModel,
   any
 > {
-  total() {
-    console.log(this.costAndPriceViewModel.calculate());
-  }
   costAndPriceViewModel: CostAndPriceViewModel = CostAndPriceViewModel.empty();
   paints?: IPaintViewModel[];
   typePaintAndPriceLocalStorageRepository: TypePaintAndPriceLocalStorageRepository =
@@ -61,4 +58,8 @@ export class ConstAndPriceCalculatorStore extends UiFormState<
         return el;
       });
   }
+  changePercent(per: number): void {
+    this.costAndPriceViewModel.markupPercentage = per;
+  }
+  total = () => this.costAndPriceViewModel.calculate();
 }

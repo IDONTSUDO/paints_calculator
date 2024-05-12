@@ -16,7 +16,7 @@ export const ConstAndPriceCalculatorScreen = observer(() => {
   return (
     <div>
       <CoreText
-        text="Калькулятор себе стоймости и прайса"
+        text="Калькулятор себестоймости и прайса"
         type={CoreTextType.header}
       />
       {store.costAndPriceViewModel.costViewModels.map((el, index) => (
@@ -55,6 +55,7 @@ export const ConstAndPriceCalculatorScreen = observer(() => {
         label={"Процент наценки %"}
         validation={(val) => Number().isValid(val)}
         error="Только числа"
+        onChange={(text) => store.changePercent(Number(text)) }
       />
       <div style={{ height: 15 }} />
       <CoreButton
@@ -66,7 +67,11 @@ export const ConstAndPriceCalculatorScreen = observer(() => {
       {store.costAndPriceViewModel.total ? (
         <div>
           <CoreText
-            text={`Итоговая сумма: ${store.costAndPriceViewModel.total.sum}`}
+            text={`Итоговая себестоймость: ${store.costAndPriceViewModel.total.sum}`}
+            type={CoreTextType.large}
+          />
+          <CoreText
+            text={`Итоговый прайс: ${store.costAndPriceViewModel.total.amountWithExtraCharge}`}
             type={CoreTextType.large}
           />
         </div>

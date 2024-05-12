@@ -7,11 +7,11 @@ export interface ICostViewModel {
 }
 export interface ITotalViewModel {
   sum: number;
-  operations: [];
+  amountWithExtraCharge: number;
 }
 export class CostAndPriceViewModel {
   costViewModels: ICostViewModel[] = [];
-  markupPercentage = 0;
+  markupPercentage = 1;
   total?: ITotalViewModel;
   constructor() {
     makeAutoObservable(this);
@@ -22,16 +22,19 @@ export class CostAndPriceViewModel {
   static empty() {
     return new CostAndPriceViewModel();
   }
+  getSum = () =>
+    this.costViewModels.reduce(
+      (acc, el) =>
+        (acc +=
+          (el.paint.price / el.paint.pigmentWeight) *
+          el.pigmentWeightConsumption),
+      0
+    );
   calculate() {
     this.total = {
-      sum: this.costViewModels.reduce(
-        (acc, el) =>
-          (acc +=
-            (el.paint.price / el.paint.pigmentWeight) *
-            el.pigmentWeightConsumption),
-        0
-      ),
-      operations: [],
+      sum: this.getSum(),
+      amountWithExtraCharge:
+        (this.getSum() / 100) * this.markupPercentage + this.getSum(),
     };
   }
 }
